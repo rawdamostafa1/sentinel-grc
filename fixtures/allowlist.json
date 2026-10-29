@@ -1,0 +1,37 @@
+[
+  {
+    "ip": "127.0.0.1",
+    "reason": "loopback",
+    "source": "mohamed_policy_guard"
+  },
+  {
+    "ip": "10.0.0.1",
+    "reason": "lab admin",
+    "source": "mohamed_policy_guard"
+  },
+  {
+    "ip": "172.18.0.1",
+    "reason": "docker gateway / health checks",
+    "source": "mohamed_policy_guard"
+  },
+  {
+    "ip": "8.8.8.8",
+    "reason": "DNS",
+    "source": "mohamed_policy_guard"
+  },
+  {
+    "ip": "1.1.1.1",
+    "reason": "DNS",
+    "source": "mohamed_policy_guard"
+  },
+  {
+    "ip": "172.18.0.5",
+    "reason": "HAProxy load balancer",
+    "source": "proposed_not_yet_in_policy_guard"
+  },
+  {
+    "ip": "172.18.0.99",
+    "reason": "authorised pentest runner (only during an authorised scan)",
+    "source": "proposed_not_yet_in_policy_guard"
+  }
+]

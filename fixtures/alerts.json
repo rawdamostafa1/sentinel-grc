@@ -1,0 +1,277 @@
+[
+  {
+    "alert_id": "ALR-001",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rule",
+    "attack_type": "brute_force",
+    "src_ip": "203.0.113.7",
+    "confidence": 0.95,
+    "evidence": [
+      "rule:BF-001 6 failed logins/24s",
+      "login_ok after 6 failures"
+    ],
+    "event_ids": [
+      "bf-001",
+      "bf-002",
+      "bf-003",
+      "bf-004",
+      "bf-005",
+      "bf-006",
+      "bf-007"
+    ],
+    "techniques": [
+      "T1110"
+    ]
+  },
+  {
+    "alert_id": "ALR-002",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "signature",
+    "attack_type": "sql_injection",
+    "src_ip": "198.51.100.23",
+    "confidence": 0.97,
+    "evidence": [
+      "sig:SQLI-UNION url pattern",
+      "http 500 on 2 of 3"
+    ],
+    "event_ids": [
+      "sq-001",
+      "sq-002",
+      "sq-003"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  {
+    "alert_id": "ALR-003",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "ml",
+    "attack_type": "web_attack",
+    "src_ip": "198.51.100.23",
+    "confidence": 0.88,
+    "evidence": [
+      "ml:WebAttack p=0.88"
+    ],
+    "event_ids": [
+      "sq-001",
+      "sq-002",
+      "sq-003"
+    ],
+    "techniques": [
+      "T1190"
+    ]
+  },
+  {
+    "alert_id": "ALR-004",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rate",
+    "attack_type": "dos",
+    "src_ip": "192.0.2.50",
+    "confidence": 0.93,
+    "evidence": [
+      "rate:203 req/10s",
+      "http 429 from stick-table"
+    ],
+    "event_ids": [
+      "dos-001",
+      "dos-002",
+      "dos-003",
+      "dos-004",
+      "dos-005",
+      "dos-006",
+      "dos-007",
+      "dos-008",
+      "dos-009"
+    ],
+    "techniques": [
+      "T1499"
+    ]
+  },
+  {
+    "alert_id": "ALR-005",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "ml",
+    "attack_type": "dos",
+    "src_ip": "192.0.2.50",
+    "confidence": 0.97,
+    "evidence": [
+      "ml:DoS p=0.97"
+    ],
+    "event_ids": [
+      "dos-001",
+      "dos-002",
+      "dos-003",
+      "dos-004",
+      "dos-005",
+      "dos-006",
+      "dos-007",
+      "dos-008",
+      "dos-009"
+    ],
+    "techniques": [
+      "T1498"
+    ]
+  },
+  {
+    "alert_id": "ALR-006",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rate",
+    "attack_type": "scan",
+    "src_ip": "198.51.100.77",
+    "confidence": 0.4,
+    "evidence": [
+      "rate:8 req/16s on /flights"
+    ],
+    "event_ids": [
+      "lg-001",
+      "lg-002",
+      "lg-003",
+      "lg-004",
+      "lg-005",
+      "lg-006",
+      "lg-007",
+      "lg-008"
+    ],
+    "techniques": [
+      "T1595"
+    ]
+  },
+  {
+    "alert_id": "ALR-007",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rule",
+    "attack_type": "scan",
+    "src_ip": "203.0.113.99",
+    "confidence": 0.6,
+    "evidence": [
+      "rule:SCAN-404 6x404/6s"
+    ],
+    "event_ids": [
+      "un-001",
+      "un-002",
+      "un-003",
+      "un-004",
+      "un-005",
+      "un-006",
+      "un-007"
+    ],
+    "techniques": [
+      "T1595"
+    ]
+  },
+  {
+    "alert_id": "ALR-008",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "ml",
+    "attack_type": "benign",
+    "src_ip": "203.0.113.99",
+    "confidence": 0.55,
+    "evidence": [
+      "ml:Benign p=0.55"
+    ],
+    "event_ids": [
+      "un-001",
+      "un-002",
+      "un-003",
+      "un-004",
+      "un-005",
+      "un-006",
+      "un-007"
+    ],
+    "techniques": []
+  },
+  {
+    "alert_id": "ALR-009",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rule",
+    "attack_type": "brute_force",
+    "src_ip": "203.0.113.15",
+    "confidence": 0.92,
+    "evidence": [
+      "rule:BF-001 5 failed logins/20s"
+    ],
+    "event_ids": [
+      "ro-001",
+      "ro-002",
+      "ro-003",
+      "ro-004",
+      "ro-005"
+    ],
+    "techniques": [
+      "T1110"
+    ]
+  },
+  {
+    "alert_id": "ALR-010",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rate",
+    "attack_type": "dos",
+    "src_ip": "172.18.0.1",
+    "confidence": 0.55,
+    "evidence": [
+      "rate:10 req/10s on /health"
+    ],
+    "event_ids": [
+      "al-001",
+      "al-002",
+      "al-003",
+      "al-004",
+      "al-005",
+      "al-006",
+      "al-007",
+      "al-008",
+      "al-009",
+      "al-010"
+    ],
+    "techniques": [
+      "T1499"
+    ]
+  },
+  {
+    "alert_id": "ALR-011",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rule",
+    "attack_type": "scan",
+    "src_ip": "172.18.0.99",
+    "confidence": 0.9,
+    "evidence": [
+      "rule:SCAN-404 5x404/5s",
+      "ua:Nikto"
+    ],
+    "event_ids": [
+      "pt-001",
+      "pt-002",
+      "pt-003",
+      "pt-004",
+      "pt-005",
+      "pt-006",
+      "pt-007"
+    ],
+    "techniques": [
+      "T1595"
+    ]
+  },
+  {
+    "alert_id": "ALR-012",
+    "ts": "2026-10-22T09:00:30Z",
+    "engine": "rule",
+    "attack_type": "scan",
+    "src_ip": "203.0.113.45",
+    "confidence": 0.85,
+    "evidence": [
+      "rule:SCAN-404 5x404/5s",
+      "admin paths probed"
+    ],
+    "event_ids": [
+      "pi-001",
+      "pi-002",
+      "pi-003",
+      "pi-004",
+      "pi-005"
+    ],
+    "techniques": [
+      "T1595"
+    ]
+  }
+]

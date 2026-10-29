@@ -1,0 +1,264 @@
+[
+  {
+    "incident_id": "INC-001",
+    "ip": "203.0.113.7",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 12,
+      "vt_total": 90,
+      "abuseipdb_score": 88
+    },
+    "geo": {
+      "country": "RU",
+      "city": "Moscow",
+      "asn": "AS64500"
+    },
+    "techniques": [
+      "T1110"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-003",
+      "name": "Auth & Sessions",
+      "criticality": 4
+    }
+  },
+  {
+    "incident_id": "INC-002",
+    "ip": "198.51.100.23",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 7,
+      "vt_total": 90,
+      "abuseipdb_score": 70
+    },
+    "geo": {
+      "country": "NL",
+      "city": "Amsterdam",
+      "asn": "AS64501"
+    },
+    "techniques": [
+      "T1190"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-001",
+      "name": "skyline-web",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-003",
+    "ip": "192.0.2.50",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 5,
+      "vt_total": 90,
+      "abuseipdb_score": 60
+    },
+    "geo": {
+      "country": "CN",
+      "city": "Shanghai",
+      "asn": "AS64502"
+    },
+    "techniques": [
+      "T1498",
+      "T1499"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-005",
+      "name": "HAProxy",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-004",
+    "ip": "198.51.100.77",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 0,
+      "vt_total": 90,
+      "abuseipdb_score": 0
+    },
+    "geo": {
+      "country": "EG",
+      "city": "Cairo",
+      "asn": "AS64503"
+    },
+    "techniques": [
+      "T1595"
+    ],
+    "history": {
+      "first_seen": "2026-09-01T10:00:00Z",
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-001",
+      "name": "skyline-web",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-005",
+    "ip": "203.0.113.99",
+    "reputation": {
+      "vt_available": false,
+      "vt_malicious": null,
+      "vt_total": null,
+      "abuseipdb_score": 30,
+      "note": "VirusTotal quota exhausted"
+    },
+    "geo": {
+      "country": "US",
+      "city": "Ashburn",
+      "asn": "AS64504"
+    },
+    "techniques": [
+      "T1595"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-001",
+      "name": "skyline-web",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-006",
+    "ip": "203.0.113.15",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 20,
+      "vt_total": 90,
+      "abuseipdb_score": 95
+    },
+    "geo": {
+      "country": "BR",
+      "city": "Sao Paulo",
+      "asn": "AS64505"
+    },
+    "techniques": [
+      "T1110"
+    ],
+    "history": {
+      "first_seen": "2026-10-10T08:00:00Z",
+      "previous_incidents": 3,
+      "previous_blocks": [
+        60,
+        360
+      ],
+      "last_verdict": "true_positive"
+    },
+    "asset": {
+      "asset_id": "AST-003",
+      "name": "Auth & Sessions",
+      "criticality": 4
+    }
+  },
+  {
+    "incident_id": "INC-007",
+    "ip": "172.18.0.1",
+    "reputation": {
+      "vt_available": false,
+      "note": "private address, never sent to VirusTotal"
+    },
+    "geo": {
+      "country": null,
+      "city": null,
+      "asn": null
+    },
+    "techniques": [
+      "T1499"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-005",
+      "name": "HAProxy",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-008",
+    "ip": "172.18.0.99",
+    "reputation": {
+      "vt_available": false,
+      "note": "private address, authorised pentest runner"
+    },
+    "geo": {
+      "country": null,
+      "city": null,
+      "asn": null
+    },
+    "techniques": [
+      "T1595"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-001",
+      "name": "skyline-web",
+      "criticality": 5
+    }
+  },
+  {
+    "incident_id": "INC-009",
+    "ip": "203.0.113.45",
+    "reputation": {
+      "vt_available": true,
+      "vt_malicious": 3,
+      "vt_total": 90,
+      "abuseipdb_score": 40
+    },
+    "geo": {
+      "country": "DE",
+      "city": "Frankfurt",
+      "asn": "AS64506"
+    },
+    "techniques": [
+      "T1595"
+    ],
+    "history": {
+      "first_seen": null,
+      "previous_incidents": 0,
+      "previous_blocks": [],
+      "last_verdict": null
+    },
+    "asset": {
+      "asset_id": "AST-002",
+      "name": "Admin Panel",
+      "criticality": 4
+    }
+  }
+]
