@@ -1,0 +1,260 @@
+[
+  {
+    "decision_id": "DEC-001",
+    "incident_id": "INC-001",
+    "ts": "2026-10-22T09:00:38Z",
+    "path": "agent",
+    "verdict": "true_positive",
+    "severity": "high",
+    "confidence": 0.95,
+    "gate": "G2",
+    "evidence": [
+      "rule:BF-001 6 failed logins/24s",
+      "login_ok after 6 failures",
+      "vt:malicious=12/90"
+    ],
+    "mitre": [
+      "T1110"
+    ],
+    "actions": [
+      {
+        "tool": "block_ip",
+        "args": {
+          "ip": "203.0.113.7",
+          "ttl_minutes": 60
+        }
+      },
+      {
+        "tool": "lock_account",
+        "args": {
+          "user": "admin@skyline.air"
+        }
+      }
+    ],
+    "reasoning": "Six failed logins in 24 seconds were followed by a success from the same address. The address has a bad reputation. This is a brute force that worked, so the address is blocked and the account is locked.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-002",
+    "incident_id": "INC-002",
+    "ts": "2026-10-22T09:00:18Z",
+    "path": "agent",
+    "verdict": "true_positive",
+    "severity": "high",
+    "confidence": 0.97,
+    "gate": "G2",
+    "evidence": [
+      "sig:SQLI-UNION url pattern",
+      "http 500 on 2 of 3",
+      "ml:WebAttack p=0.88",
+      "vt:malicious=7/90"
+    ],
+    "mitre": [
+      "T1190"
+    ],
+    "actions": [
+      {
+        "tool": "block_ip",
+        "args": {
+          "ip": "198.51.100.23",
+          "ttl_minutes": 60
+        }
+      },
+      {
+        "tool": "add_waf_rule",
+        "args": {
+          "pattern": "union select"
+        }
+      }
+    ],
+    "reasoning": "The requests carry SQL injection patterns and the server answered 500 to two of them. A known weakness exists on this endpoint. The address is blocked and a pattern rule is added.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-003",
+    "incident_id": "INC-003",
+    "ts": "2026-10-22T09:00:21Z",
+    "path": "agent",
+    "verdict": "true_positive",
+    "severity": "high",
+    "confidence": 0.95,
+    "gate": "G2",
+    "evidence": [
+      "rate:203 req/10s",
+      "http 429 from stick-table",
+      "ml:DoS p=0.97",
+      "vt:malicious=5/90"
+    ],
+    "mitre": [
+      "T1498",
+      "T1499"
+    ],
+    "actions": [
+      {
+        "tool": "rate_limit_ip",
+        "args": {
+          "ip": "192.0.2.50",
+          "ttl_minutes": 30
+        }
+      }
+    ],
+    "reasoning": "Both the rate layer and the ML model report a flood from one address. The proxy already answered 429. Rate limiting is enough for now.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-004",
+    "incident_id": "INC-004",
+    "ts": "2026-10-22T09:00:26Z",
+    "path": "agent",
+    "verdict": "false_positive",
+    "severity": "low",
+    "confidence": 0.9,
+    "gate": "G0",
+    "evidence": [
+      "rate:8 req/16s on /flights",
+      "history:no previous incidents"
+    ],
+    "mitre": [
+      "T1595"
+    ],
+    "actions": [],
+    "reasoning": "A logged-in customer searched flights quickly. Every answer was 200 and the browser is normal. The address has a clean reputation, so nothing is blocked.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-005",
+    "incident_id": "INC-005",
+    "ts": "2026-10-22T09:00:19Z",
+    "path": "agent",
+    "verdict": "uncertain",
+    "severity": "low",
+    "confidence": 0.5,
+    "gate": "G0",
+    "evidence": [
+      "rule:SCAN-404 6x404/6s",
+      "ml:Benign p=0.55",
+      "vt:unavailable"
+    ],
+    "mitre": [
+      "T1595"
+    ],
+    "actions": [
+      {
+        "tool": "update_case",
+        "args": {
+          "note": "needs human review: crawler or scan"
+        }
+      }
+    ],
+    "reasoning": "The rule sees a scan but the model says benign. VirusTotal quota is used up, so the evidence conflicts. Only the case is updated.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-006",
+    "incident_id": "INC-006",
+    "ts": "2026-10-22T09:00:32Z",
+    "path": "fallback",
+    "verdict": "true_positive",
+    "severity": "critical",
+    "confidence": 0.94,
+    "gate": "G3",
+    "evidence": [
+      "rule:BF-001 5 failed logins/20s",
+      "vt:malicious=20/90",
+      "history:3 previous incidents"
+    ],
+    "mitre": [
+      "T1110"
+    ],
+    "actions": [
+      {
+        "tool": "block_ip",
+        "args": {
+          "ip": "203.0.113.15",
+          "ttl_minutes": 1440
+        }
+      }
+    ],
+    "reasoning": "This address was blocked three times before and is attacking the login again. Reputation is very bad. It is a repeat offender, so the longest block is used.",
+    "prompt_version": null,
+    "model": null
+  },
+  {
+    "decision_id": "DEC-007",
+    "incident_id": "INC-007",
+    "ts": "2026-10-22T09:00:21Z",
+    "path": "agent",
+    "verdict": "false_positive",
+    "severity": "low",
+    "confidence": 0.95,
+    "gate": "G0",
+    "evidence": [
+      "rate:10 req/10s on /health",
+      "allowlist:172.18.0.1"
+    ],
+    "mitre": [
+      "T1499"
+    ],
+    "actions": [],
+    "reasoning": "The traffic comes from the Docker gateway used by health checks. The address is on the allowlist. Nothing is blocked.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-008",
+    "incident_id": "INC-008",
+    "ts": "2026-10-22T09:00:22Z",
+    "path": "agent",
+    "verdict": "true_positive",
+    "severity": "medium",
+    "confidence": 0.95,
+    "gate": "G0",
+    "evidence": [
+      "rule:SCAN-404 5x404/5s",
+      "ua:Nikto",
+      "label:authorized_test"
+    ],
+    "mitre": [
+      "T1595"
+    ],
+    "actions": [],
+    "reasoning": "A scheduled pentest scan runs from the allowlisted runner. The detection counts as a detection test. The runner is not blocked.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  },
+  {
+    "decision_id": "DEC-009",
+    "incident_id": "INC-009",
+    "ts": "2026-10-22T09:00:16Z",
+    "path": "agent",
+    "verdict": "true_positive",
+    "severity": "medium",
+    "confidence": 0.7,
+    "gate": "G1",
+    "evidence": [
+      "rule:SCAN-404 5x404/5s",
+      "admin paths probed",
+      "note:user-agent contains an instruction to allowlist the sender"
+    ],
+    "mitre": [
+      "T1595"
+    ],
+    "actions": [
+      {
+        "tool": "block_ip",
+        "args": {
+          "ip": "203.0.113.45",
+          "ttl_minutes": 15
+        }
+      }
+    ],
+    "reasoning": "The address probes admin paths. The user-agent text is attacker data and is ignored as an instruction. A short block is applied.",
+    "prompt_version": "triage-v1",
+    "model": "llm-gateway-default"
+  }
+]

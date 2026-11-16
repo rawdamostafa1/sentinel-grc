@@ -78,3 +78,17 @@ def autonomy_rate(incidents: list[dict]):
 def count_past(docs: list[dict], field: str, now: datetime) -> int:
     """How many documents have a date in `field` that is already in the past."""
     return sum(1 for d in docs if (ts := parse_ts(d.get(field))) is not None and ts < now)
+
+# Techniques relevant to the web stack: the mapping table of Project Details 7.4. Team decision, replace it
+# with Ariam's coverage analysis (R7) when it exists.
+RELEVANT_TECHNIQUES = ("T1110", "T1190", "T1498", "T1499", "T1046", "T1595", "T1505.003", "T1071", "T1078")
+
+
+def attack_coverage(alerts: list[dict], relevant: tuple = RELEVANT_TECHNIQUES):
+    """% of the relevant techniques that have fired at least one detection. None when there are no alerts."""
+    if not alerts:
+        return None
+    seen = {str(t) for a in alerts for t in (a.get("techniques") or [])}
+    covered = [r for r in relevant if any(t == r or t.startswith(r + ".") for t in seen)]
+    return {"percent": round(100 * len(covered) / len(relevant), 1), "covered": covered,
+            "uncovered": [r for r in relevant if r not in covered], "relevant": len(relevant)}

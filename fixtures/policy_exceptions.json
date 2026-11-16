@@ -1,0 +1,26 @@
+[
+  {
+    "exception_id": "EXC-001",
+    "policy_id": "POL-001",
+    "asset_id": "AST-018",
+    "reason": "Pentest runner is not blocked during an authorised scan",
+    "approved_by": "CISO",
+    "expires_at": "2035-01-01T00:00:00Z"
+  },
+  {
+    "exception_id": "EXC-002",
+    "policy_id": "POL-002",
+    "asset_id": "AST-030",
+    "reason": "Temporary: monitoring host may exceed the rate limit",
+    "approved_by": "CISO",
+    "expires_at": "2026-10-01T00:00:00Z"
+  },
+  {
+    "exception_id": "EXC-003",
+    "policy_id": "POL-003",
+    "asset_id": "AST-005",
+    "reason": "Load test from the lab",
+    "approved_by": "SOC Lead",
+    "expires_at": "2035-06-01T00:00:00Z"
+  }
+]

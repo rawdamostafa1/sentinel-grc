@@ -15,9 +15,9 @@ CONTROLS_DIR = Path(__file__).parent / "controls_data"
 
 # platform feature (Amira's feature_status.yaml) -> asset ids in app/seed_data.py
 FEATURE_ASSETS = {
-    "ai-agent": ["AST-010"],
+    "ai-agent": ["AST-010", "AST-028"],
     "tuning-agent": ["AST-010"],
-    "ml-service": ["AST-009"],
+    "ml-service": ["AST-009", "AST-024"],
     "sniffer": ["AST-013"],
     "log-shipper": ["AST-014"],
     "detector": ["AST-015"],
@@ -25,19 +25,20 @@ FEATURE_ASSETS = {
     "correlation-engine": ["AST-016"],
     "case-management": ["AST-016"],
     "enrichment-service": ["AST-017"],
-    "threat-intelligence": ["AST-017"],
+    "threat-intelligence": ["AST-017", "AST-026", "AST-027"],
     "pentest-module": ["AST-018"],
     "executor": ["AST-011"],
-    "playbook-engine": ["AST-011"],
-    "policy-guard": ["AST-011"],
+    "playbook-engine": ["AST-011", "AST-023"],
+    "policy-guard": ["AST-023"],
     "haproxy-connector": ["AST-005", "AST-011"],
     "website-hooks": ["AST-001"],
     "website-mode-b": ["AST-001"],
     "rbac-auth": ["AST-003", "AST-019"],
     "report-generator": ["AST-020"],
-    "audit-log": ["AST-008"],
+    "audit-log": ["AST-025"],
     "backup-restore": ["AST-008"],
     "pipeline-health": ["AST-007"],
+    "notification-engine": ["AST-029"],
 }
 KEPT_FIELDS = ("framework", "function", "category", "category_id", "title", "description", "asset_class",
                "weight", "owner", "status", "maturity", "platform_features")

@@ -1,6 +1,7 @@
 """الـ API بتاع الأصول (W1). بيشتغل بـ: uvicorn app.main:app --reload"""
 import uuid
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import RedirectResponse
 from .database import get_assets
 from .models import Asset, AssetCreate, AssetUpdate, now_utc
 from .relations import router as relations_router
@@ -8,12 +9,15 @@ from .heatmap import router as heatmap_router
 from .risks import router as risks_router
 from .risk_live import router as live_router
 from .kris import router as kris_router
+from .portal import router as portal_router
+from .scheduler import job as recalc_job, lifespan
 
-app = FastAPI(title="Sentinel GRC - Assets")
+app = FastAPI(title="Sentinel GRC", lifespan=lifespan)
 # W7: /risks/heatmap must be registered BEFORE risks_router, otherwise /risks/{risk_id} catches it
 app.include_router(heatmap_router)
 app.include_router(risks_router)  # W3: /risks
 app.include_router(live_router)  # W4: /risks/recalculate
+app.include_router(portal_router)  # W8: /portal/summary
 app.include_router(kris_router)  # W5: /kris
 app.include_router(relations_router)  # W2: /assets/{id}/summary وغيره
 
@@ -24,9 +28,21 @@ def clean(doc: dict) -> dict:
     return doc
 
 
+@app.get("/", include_in_schema=False)
+def root():
+    """Opening the bare address sends you to the interactive docs instead of a 404."""
+    return RedirectResponse("/docs")
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/risks/recalculate/status", tags=["live risk"])
+def recalculation_status():
+    """W4: is the automatic recalculation job running, and what did its last run do?"""
+    return recalc_job.status()
 
 
 @app.post("/assets", response_model=Asset, status_code=201)

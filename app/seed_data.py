@@ -1,17 +1,14 @@
 """Skyline assets that will be loaded into the database.
 Update the values after agreeing on them with the team.
 
-CRITICALITY SCALE (1-5). It feeds the severity score (Project Details 6.3), so it is a shared contract:
-  5  An outage or a breach stops bookings, exposes passenger or payment data,
-     or switches off the platform's protection of Skyline altogether.
-  4  Serious damage. Work-arounds exist for a few hours, or a compromise lets an attacker
-     bypass or misuse the protection.
-  3  One function stops or gets worse, but the platform keeps working (degraded mode).
-  2  Supporting function. The business notices it after a while.
-  1  Almost no impact.
-
-Criticality (how much it matters) is separate from data classification (how sensitive its data is).
-The IP addresses below are PROPOSALS until the master docker-compose fixes the real ones.
+IP addresses (all in the lab subnet 172.18.0.0/16):
+  172.18.0.10  skyline-web   from Mohamed Osama's Policy Guard scope list
+  172.18.0.1   gateway       from Mohamed Osama's allowlist (the Docker gateway)
+  172.18.0.5   HAProxy       proposal, also used by the fixtures
+  172.18.0.99  Pentest Runner proposal, allowlisted during authorised scans (fixtures)
+  everything else is a PLACEHOLDER until the master docker-compose fixes the real addresses.
+Parts of the website (Admin Panel, Auth, Booking, Check-in) and files/third parties have no address
+of their own: an IP lookup finds the host asset (skyline-web), a name lookup finds the part.
 """
 
 SEED_ASSETS = [
@@ -31,7 +28,7 @@ SEED_ASSETS = [
     dict(asset_id="AST-004", name="MySQL (skyline)", type="database", owner="Database Team",
          business_service="Flight booking", criticality=5,
          data_classification="confidential", exposure="internal",
-         hostnames=["mysql"], description="Bookings, passengers and payments data"),
+         hostnames=["mysql"], ip_addresses=["172.18.0.11"], description="Bookings, passengers and payments data"),
     dict(asset_id="AST-005", name="HAProxy", type="network", owner="Network Team",
          business_service="Edge protection", criticality=5,
          data_classification="internal", exposure="internet-facing",
@@ -43,59 +40,101 @@ SEED_ASSETS = [
          description="External flight search and booking service"),
     dict(asset_id="AST-007", name="Redis", type="datastore", owner="Platform Team",
          business_service="Event pipeline", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["redis"],
+         data_classification="internal", exposure="internal", hostnames=["redis"], ip_addresses=["172.18.0.12"],
          description="Event streams and caches"),
     dict(asset_id="AST-008", name="MongoDB (Sentinel)", type="database", owner="Platform Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="confidential", exposure="internal", hostnames=["mongo"],
+         data_classification="confidential", exposure="internal", hostnames=["mongo"], ip_addresses=["172.18.0.13"],
          description="Sentinel primary datastore"),
     dict(asset_id="AST-009", name="ML Service", type="soar-component", owner="AI Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["ml-service"],
+         data_classification="internal", exposure="internal", hostnames=["ml-service"], ip_addresses=["172.18.0.14"],
          description="Attack classification model API"),
     dict(asset_id="AST-010", name="AI Agent", type="soar-component", owner="AI Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="internal", exposure="internal", hostnames=["agent"],
+         data_classification="internal", exposure="internal", hostnames=["agent"], ip_addresses=["172.18.0.15"],
          description="Autonomous Tier-1 analyst agent"),
     dict(asset_id="AST-011", name="Executor", type="soar-component", owner="SOAR Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="internal", exposure="internal", hostnames=["executor"],
+         data_classification="internal", exposure="internal", hostnames=["executor"], ip_addresses=["172.18.0.16"],
          description="Runs playbooks and response actions"),
     dict(asset_id="AST-012", name="Dashboard", type="soar-component", owner="Frontend Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["dashboard"],
+         data_classification="internal", exposure="internal", hostnames=["dashboard"], ip_addresses=["172.18.0.17"],
          description="Sentinel web interface"),
     # --- Sentinel platform services (names are the compose service names, Project Details 2.3) ---
     dict(asset_id="AST-013", name="Sniffer", type="soar-component", owner="Pipeline Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["sniffer"],
+         data_classification="internal", exposure="internal", hostnames=["sniffer"], ip_addresses=["172.18.0.18"],
          description="Captures network flows with cicflowmeter and writes them to the events stream"),
     dict(asset_id="AST-014", name="Log Shipper", type="soar-component", owner="Pipeline Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["log-shipper"],
+         data_classification="internal", exposure="internal", hostnames=["log-shipper"], ip_addresses=["172.18.0.19"],
          description="Reads website and HAProxy logs and turns them into events"),
     dict(asset_id="AST-015", name="Detector", type="soar-component", owner="Pipeline Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="internal", exposure="internal", hostnames=["detector"],
+         data_classification="internal", exposure="internal", hostnames=["detector"], ip_addresses=["172.18.0.20"],
          description="Runs the ML, rate and rule detection layers on every event"),
     dict(asset_id="AST-016", name="Correlator", type="soar-component", owner="Pipeline Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="internal", exposure="internal", hostnames=["correlator"],
+         data_classification="internal", exposure="internal", hostnames=["correlator"], ip_addresses=["172.18.0.21"],
          description="Groups alerts into incidents and opens cases"),
     dict(asset_id="AST-017", name="Enrichment", type="soar-component", owner="Threat Intel Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["enrichment"],
+         data_classification="internal", exposure="internal", hostnames=["enrichment"], ip_addresses=["172.18.0.22"],
          description="Threat intelligence lookups (VirusTotal, AbuseIPDB, GeoIP, MITRE)"),
     dict(asset_id="AST-018", name="Pentest Runner", type="soar-component", owner="Pentest Team",
          business_service="Sentinel platform", criticality=3,
-         data_classification="internal", exposure="internal", hostnames=["pentest-runner"],
+         data_classification="internal", exposure="internal", hostnames=["pentest-runner"], ip_addresses=["172.18.0.99"],
          description="Runs scope-locked security scans against the lab target; allowlisted during authorised scans"),
     dict(asset_id="AST-019", name="Platform API", type="service", owner="Frontend Team",
          business_service="Sentinel platform", criticality=4,
-         data_classification="confidential", exposure="internal", hostnames=["api"],
+         data_classification="confidential", exposure="internal", hostnames=["api"], ip_addresses=["172.18.0.23"],
          description="REST API, live updates and login for the dashboard; holds users and API keys"),
     dict(asset_id="AST-020", name="Reporter", type="soar-component", owner="GRC Team",
          business_service="Sentinel platform", criticality=2,
-         data_classification="confidential", exposure="internal", hostnames=["reporter"],
+         data_classification="confidential", exposure="internal", hostnames=["reporter"], ip_addresses=["172.18.0.24"],
          description="Builds the scheduled executive and technical PDF reports"),
+    # --- added after the first review: website flows, SOAR internals, external services, lab network ---
+    dict(asset_id="AST-021", name="Booking & Payment Flow", type="service", owner="Web Team",
+         business_service="Flight booking", criticality=5,
+         data_classification="confidential", exposure="internet-facing",
+         description="Search, booking and payment steps of the website; handles passenger and payment data"),
+    dict(asset_id="AST-022", name="Check-in Service", type="service", owner="Web Team",
+         business_service="Flight booking", criticality=3,
+         data_classification="confidential", exposure="internet-facing",
+         description="Online check-in and boarding pass pages"),
+    dict(asset_id="AST-023", name="Policy Guard & Playbooks", type="soar-component", owner="SOAR Team",
+         business_service="Sentinel platform", criticality=5,
+         data_classification="internal", exposure="internal",
+         description="Code that validates every automatic action, and the playbooks that drive them"),
+    dict(asset_id="AST-024", name="ML Model Artifacts", type="datastore", owner="AI Team",
+         business_service="Sentinel platform", criticality=3,
+         data_classification="internal", exposure="internal",
+         description="Trained model, scaler and feature list used by the ML service"),
+    dict(asset_id="AST-025", name="Audit Log", type="datastore", owner="SOAR Team",
+         business_service="Sentinel platform", criticality=4,
+         data_classification="confidential", exposure="internal",
+         description="Append-only record of every decision and action, used as evidence"),
+    dict(asset_id="AST-026", name="VirusTotal API", type="third-party", owner="Threat Intel Team",
+         business_service="Sentinel platform", criticality=2,
+         data_classification="internal", exposure="external",
+         description="External IP, URL and file reputation lookups (small free quota)"),
+    dict(asset_id="AST-027", name="AbuseIPDB API", type="third-party", owner="Threat Intel Team",
+         business_service="Sentinel platform", criticality=2,
+         data_classification="internal", exposure="external",
+         description="External crowd-sourced abuse score per IP address"),
+    dict(asset_id="AST-028", name="LLM Provider", type="third-party", owner="AI Team",
+         business_service="Sentinel platform", criticality=3,
+         data_classification="internal", exposure="external",
+         description="Hosted language model used by the AI agents (receives masked incident context only)"),
+    dict(asset_id="AST-029", name="Telegram Bot API", type="third-party", owner="Platform Team",
+         business_service="Sentinel platform", criticality=2,
+         data_classification="internal", exposure="external",
+         description="Sends alerts and action notices to the security team"),
+    dict(asset_id="AST-030", name="Docker Network Gateway", type="network", owner="Platform Team",
+         business_service="Sentinel platform", criticality=2,
+         data_classification="internal", exposure="internal",
+         hostnames=["docker-gateway"], ip_addresses=["172.18.0.1"],
+         description="Lab network gateway; always allowlisted, never blocked"),
 ]

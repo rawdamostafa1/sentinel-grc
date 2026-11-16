@@ -44,3 +44,38 @@ def load_evidence(incident_id: str) -> dict:
 
 def load_allowlist() -> list[dict]:
     return _read(ROOT / "allowlist.json")
+
+
+def load_findings() -> list[dict]:
+    """Pentest findings in the Finding record shape (title, endpoint, CWE, OWASP, CVSS, severity, status, evidence)."""
+    return _read(ROOT / "findings.json")
+
+
+def load_finding(finding_id: str) -> dict:
+    return next(f for f in load_findings() if f["finding_id"] == finding_id)
+
+
+def load_decisions() -> list[dict]:
+    """Agent decision records (Project Details 9.3 schema) for the 9 fixture incidents."""
+    return _read(ROOT / "decisions.json")
+
+
+def load_decision(incident_id: str) -> dict:
+    return next(d for d in load_decisions() if d["incident_id"] == incident_id)
+
+
+def load_actions() -> list[dict]:
+    """Executed (or refused, or dry-run) actions, in the action record shape of Project Details 10.5."""
+    return _read(ROOT / "actions.json")
+
+
+def load_policies() -> list[dict]:
+    return _read(ROOT / "policies.json")
+
+
+def load_policy_exceptions() -> list[dict]:
+    return _read(ROOT / "policy_exceptions.json")
+
+
+def load_compliance_snapshot() -> dict:
+    return _read(ROOT / "compliance_snapshot.json")

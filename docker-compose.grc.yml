@@ -1,0 +1,38 @@
+# Runs the GRC service on its own (with its own MongoDB) for development:
+#   docker compose -f docker-compose.grc.yml up --build
+# In the master docker-compose (A11) copy only the `grc` service and join the shared network.
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    networks:
+      sentinel-net:
+        ipv4_address: 172.18.0.13      # same placeholder address as the Mongo asset in app/seed_data.py
+    volumes:
+      - mongo-data:/data/db
+
+  grc:
+    build: .
+    container_name: grc
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_DB: sentinel
+      RECALC_INTERVAL_SECONDS: "300"
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mongo
+    networks:
+      - sentinel-net
+    restart: unless-stopped
+
+  # load the data once:  docker compose -f docker-compose.grc.yml run --rm grc python seed_all.py --demo
+
+networks:
+  sentinel-net:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+volumes:
+  mongo-data:

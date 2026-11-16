@@ -1,0 +1,231 @@
+[
+  {
+    "finding_id": "FND-001",
+    "title": "SQL injection in flight search",
+    "endpoint": "/flights",
+    "cwe": "CWE-89",
+    "owasp": "A05",
+    "cvss": 9.8,
+    "severity": "critical",
+    "status": "open",
+    "tool": "sqlmap",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-001",
+      "AST-004"
+    ],
+    "opened_at": "2026-10-18T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "sqlmap confirmed boolean-based blind injection in parameter 'from'; database user and version were read"
+  },
+  {
+    "finding_id": "FND-002",
+    "title": "Stored cross-site scripting in comments",
+    "endpoint": "/comments",
+    "cwe": "CWE-79",
+    "owasp": "A05",
+    "cvss": 7.1,
+    "severity": "high",
+    "status": "open",
+    "tool": "zap",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-001"
+    ],
+    "opened_at": "2026-10-02T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "ZAP active scan: <script> payload saved and returned unescaped on the page"
+  },
+  {
+    "finding_id": "FND-003",
+    "title": "No rate limit or lockout on login",
+    "endpoint": "/auth/login",
+    "cwe": "CWE-307",
+    "owasp": "A07",
+    "cvss": 7.5,
+    "severity": "high",
+    "status": "open",
+    "tool": "hydra",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-003"
+    ],
+    "opened_at": "2026-09-05T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "Hydra tried 400 passwords in 94 seconds without a lockout or delay"
+  },
+  {
+    "finding_id": "FND-004",
+    "title": "Weak password hashing",
+    "endpoint": "/auth/register",
+    "cwe": "CWE-916",
+    "owasp": "A04",
+    "cvss": 7.4,
+    "severity": "high",
+    "status": "open",
+    "tool": "manual",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-003"
+    ],
+    "opened_at": "2026-07-10T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "Passwords are stored with a fast unsalted hash"
+  },
+  {
+    "finding_id": "FND-005",
+    "title": "Unrestricted file upload",
+    "endpoint": "/account/upload",
+    "cwe": "CWE-434",
+    "owasp": "A06",
+    "cvss": 8.8,
+    "severity": "high",
+    "status": "open",
+    "tool": "zap",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-001"
+    ],
+    "opened_at": "2026-10-20T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "A .php file was accepted and stored under the public uploads path"
+  },
+  {
+    "finding_id": "FND-006",
+    "title": "Admin panel reachable from the internet",
+    "endpoint": "/admin",
+    "cwe": "CWE-284",
+    "owasp": "A01",
+    "cvss": 7.5,
+    "severity": "high",
+    "status": "open",
+    "tool": "nikto",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-002"
+    ],
+    "opened_at": "2026-09-25T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "/admin answers from outside the lab network with the login page"
+  },
+  {
+    "finding_id": "FND-007",
+    "title": "Server version disclosed in response headers",
+    "endpoint": "/",
+    "cwe": "CWE-200",
+    "owasp": "A02",
+    "cvss": 3.7,
+    "severity": "low",
+    "status": "open",
+    "tool": "nikto",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-005"
+    ],
+    "opened_at": "2026-08-20T09:00:00Z",
+    "closed_at": null,
+    "verified_by_retest": null,
+    "evidence": "Server header reveals the proxy name and version"
+  },
+  {
+    "finding_id": "FND-008",
+    "title": "Missing security headers",
+    "endpoint": "/",
+    "cwe": "CWE-693",
+    "owasp": "A02",
+    "cvss": 5.3,
+    "severity": "medium",
+    "status": "fixed",
+    "tool": "zap",
+    "scan_id": "SCAN-B01",
+    "asset_ids": [
+      "AST-001"
+    ],
+    "opened_at": "2026-09-10T09:00:00Z",
+    "closed_at": "2026-09-30T09:00:00Z",
+    "verified_by_retest": true,
+    "evidence": "No CSP, X-Frame-Options or X-Content-Type-Options (fixed in website mode B)"
+  },
+  {
+    "finding_id": "FND-009",
+    "title": "Verbose error messages",
+    "endpoint": "/flights",
+    "cwe": "CWE-209",
+    "owasp": "A10",
+    "cvss": 5.3,
+    "severity": "medium",
+    "status": "fixed",
+    "tool": "zap",
+    "scan_id": "SCAN-B01",
+    "asset_ids": [
+      "AST-001"
+    ],
+    "opened_at": "2026-09-10T09:00:00Z",
+    "closed_at": "2026-09-20T09:00:00Z",
+    "verified_by_retest": true,
+    "evidence": "A database error with the SQL text was returned to the browser (fixed in mode B)"
+  },
+  {
+    "finding_id": "FND-010",
+    "title": "Missing CSRF protection on booking confirmation",
+    "endpoint": "/booking/confirm",
+    "cwe": "CWE-352",
+    "owasp": "A01",
+    "cvss": 6.5,
+    "severity": "medium",
+    "status": "fixed",
+    "tool": "zap",
+    "scan_id": "SCAN-B01",
+    "asset_ids": [
+      "AST-021"
+    ],
+    "opened_at": "2026-09-15T09:00:00Z",
+    "closed_at": "2026-10-05T09:00:00Z",
+    "verified_by_retest": true,
+    "evidence": "Booking can be confirmed by a cross-site request (fixed in mode B)"
+  },
+  {
+    "finding_id": "FND-011",
+    "title": "MySQL port reachable",
+    "endpoint": "tcp/3306",
+    "cwe": "CWE-668",
+    "owasp": "A02",
+    "cvss": 6.5,
+    "severity": "medium",
+    "status": "false_positive",
+    "tool": "nmap",
+    "scan_id": "SCAN-A01",
+    "asset_ids": [
+      "AST-004"
+    ],
+    "opened_at": "2026-10-10T09:00:00Z",
+    "closed_at": "2026-10-11T09:00:00Z",
+    "verified_by_retest": null,
+    "evidence": "Only reachable from inside the lab network; the scope lock confirmed the scan was local"
+  },
+  {
+    "finding_id": "FND-012",
+    "title": "Default administrator credentials",
+    "endpoint": "/admin/login",
+    "cwe": "CWE-798",
+    "owasp": "A07",
+    "cvss": 9.8,
+    "severity": "critical",
+    "status": "fixed",
+    "tool": "hydra",
+    "scan_id": "SCAN-B01",
+    "asset_ids": [
+      "AST-002"
+    ],
+    "opened_at": "2026-08-01T09:00:00Z",
+    "closed_at": "2026-08-15T09:00:00Z",
+    "verified_by_retest": true,
+    "evidence": "admin / admin was accepted (fixed in mode B)"
+  }
+]

@@ -5,7 +5,7 @@ who owns the data. Nothing is invented.
 """
 from fastapi import APIRouter
 from .database import get_db, get_findings, get_incidents, get_risks
-from .kri_calc import (autonomy_rate, count_past, finding_ageing, mean_time_to_remediate,
+from .kri_calc import (attack_coverage, autonomy_rate, count_past, finding_ageing, mean_time_to_remediate,
                        open_critical_count)
 from .risk_scoring import utcnow_naive
 from .risks import expire_acceptances
@@ -30,6 +30,8 @@ def get_kris():
     risks = list(get_risks().find({}, {"_id": 0}))
     policies = list(get_db()["policies"].find({}, {"_id": 0}))
     exceptions = list(get_db()["policy_exceptions"].find({}, {"_id": 0}))
+    alerts = list(get_db()["alerts"].find({}, {"_id": 0, "techniques": 1}))
+    coverage = attack_coverage(alerts)
 
     no_findings = "No findings in the database yet (pentest module, Omar)."
     mttr = mean_time_to_remediate(findings) if findings else None
@@ -56,8 +58,10 @@ def get_kris():
             auto["percent"] if auto else None, "%", "incidents (Alaa) + agent (Habiba)",
             "" if auto else "No incident has the handled_autonomously field yet.",
             {k: auto[k] for k in ("autonomous", "total")} if auto else None),
-        kri("attack_coverage", "ATT&CK detection coverage", None, "%", "coverage analysis (Ariam)",
-            "Waiting for Ariam's coverage analysis (R7)."),
+        kri("attack_coverage", "ATT&CK detection coverage",
+            coverage["percent"] if coverage else None, "%", "alerts (Alaa), later coverage analysis (Ariam)",
+            "" if coverage else "No alerts yet. Waiting for Alaa's alerts or Ariam's coverage analysis (R7).",
+            {k: coverage[k] for k in ("covered", "uncovered", "relevant")} if coverage else None),
         kri("expired_exceptions", "Expired exceptions", expired_risks + expired_policy, "exceptions",
             "risk acceptances (Rawda) + policy exceptions (Amira)",
             "Policy exceptions count only when Amira's collection exists.",

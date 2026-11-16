@@ -11,6 +11,11 @@
 | `incidents.json` | الحوادث + `expected` (الإجابة الصح) |
 | `evidence_bundles.json` | الأدلة لكل حادثة (reputation, geo, history, asset) |
 | `allowlist.json` | العناوين اللي ماينفعش تتحجب |
+| `decisions.json` | قرار الـ Agent لكل حادثة (شكل Project Details 9.3): verdict وseverity وconfidence وevidence وmitre وactions وgate وreasoning. واحد منهم `fallback` |
+| `actions.json` | الأكشنز المنفّذة (شكل 10.5): نجحت ومتحقق منها، واتلغت (rolled back)، ورفضها الـ Policy Guard (allowlisted)، وdry-run |
+| `policies.json`, `policy_exceptions.json` | 5 سياسات و3 استثناءات (سياستين متأخرين في المراجعة، واستثناء منتهي) لـ KRIs بتاعة Amira |
+| `compliance_snapshot.json` | عينة بشكل تقرير Amira، لصفحة الـ Client Portal |
+| `findings.json` | 12 finding من الـ pentest بشكل الـ Finding record (title, endpoint, CWE, OWASP, CVSS, severity, status, evidence). 7 مفتوحة، 4 اتصلحت بعد retest، 1 false positive |
 | `loader.py` | دوال قراءة جاهزة |
 
 ## الحوادث
@@ -44,3 +49,30 @@ assert incident["expected"]["verdict"] == "true_positive"
 - أحداث الـ `flow` فيها 4 features بس للتبسيط، مش الـ 71 الحقيقية.
 - الـ subnet مأخوذ من الـ Policy Guard بتاع Mohamed Osama (172.18.x.x). `skyline-web` = 172.18.0.10 و`172.18.0.1` (docker gateway) موجودين عنده. `172.18.0.5` (HAProxy) و`172.18.0.99` (pentest runner) **مقترحين** ولسه مش في الـ allowlist بتاعه، وده موضح في `allowlist.json` في حقل `source`.
 - `severity_score` محسوب بنفس معادلة Project Details (قسم 6.3)، فتنفع كمان لتيست الـ severity engine.
+
+## Findings (fixtures/findings.json)
+
+Pentest findings for the KRIs (W5), the live risk (W4) and the asset page (W2), until Omar's pentest module delivers real ones.
+Load them with `python seed_findings.py` (they are marked `source: "fixture"` and only those are ever deleted).
+
+```python
+from fixtures.loader import load_findings, load_finding
+f = load_finding("FND-001")   # SQL injection, critical, open
+```
+
+Cases covered: open critical, fixed critical (must not count), false positive (must not count), and open findings in
+every ageing bucket (0-7, 8-30, 31-90, over 90 days). Dates are anchored to 2026-10-22.
+OWASP ids follow Amira's OWASP Top 10:2025 library (A01..A10).
+
+## Decisions, actions, policies (added with W9)
+
+```python
+from fixtures.loader import load_decision, load_actions, load_policies
+load_decision("INC-006")["gate"]        # "G3": a repeat offender gets the longest block
+```
+Each decision follows the confidence gates of Project Details 9.6 and matches the `expected` answer of its incident;
+tests check both. `incidents.json` now has `handled_autonomously` (true/false) for the autonomy-rate KRI.
+Dates meant to be "not due yet" are in 2030 or later on purpose, so the tests do not age.
+
+Load all of it into a database for a demo with `python seed_all.py --demo` (marked `source: "fixture"`, remove it
+again with `python seed_all.py --remove-demo`).

@@ -1,8 +1,9 @@
 """Loads the Skyline assets into the database. Run: python seed.py
 
 Safe to repeat. The seed owns the descriptive fields (name, owner, criticality...), but
-hostnames and ip_addresses are only written when an asset is first created, so addresses
-that were edited later (from the dashboard or PUT /assets/{id}) are never wiped.
+hostnames and ip_addresses are written when an asset is first created, and later only to FILL
+an empty list (so a new address added to seed_data.py reaches assets that already exist).
+Addresses that were edited later (from the dashboard or PUT /assets/{id}) are never overwritten.
 """
 from app.database import get_assets
 from app.models import AssetCreate
@@ -25,6 +26,12 @@ def run():
             {"$set": asset, "$setOnInsert": {**network, "last_seen": None}},
             upsert=True,
         )
+        for key, value in network.items():
+            if value:   # fill only when the stored list is missing or empty
+                col.update_one(
+                    {"asset_id": asset["asset_id"], "$or": [{key: {"$exists": False}}, {key: []}, {key: None}]},
+                    {"$set": {key: value}},
+                )
     print(f"Seeded {len(SEED_ASSETS)} assets")
 
 

@@ -1,0 +1,64 @@
+[
+  {
+    "policy_id": "POL-001",
+    "name": "Brute-force sources are blocked for 24 hours after repeated attempts",
+    "version": 2,
+    "owner": "SOC Lead",
+    "status": "approved",
+    "approved_by": "CISO",
+    "approved_at": "2026-08-01",
+    "review_date": "2030-01-01",
+    "linked_playbook": "web_bruteforce_response",
+    "parameters": {
+      "block_hours": 24
+    }
+  },
+  {
+    "policy_id": "POL-002",
+    "name": "Every automatic action is time-limited and reversible",
+    "version": 1,
+    "owner": "SOC Lead",
+    "status": "approved",
+    "approved_by": "CISO",
+    "approved_at": "2026-08-01",
+    "review_date": "2026-09-15",
+    "linked_playbook": null,
+    "parameters": {}
+  },
+  {
+    "policy_id": "POL-003",
+    "name": "Allowlisted addresses are never blocked",
+    "version": 1,
+    "owner": "SOC Lead",
+    "status": "approved",
+    "approved_by": "CISO",
+    "approved_at": "2026-08-01",
+    "review_date": "2030-01-01",
+    "linked_playbook": null,
+    "parameters": {}
+  },
+  {
+    "policy_id": "POL-004",
+    "name": "Personal data is masked before it leaves the platform",
+    "version": 1,
+    "owner": "SOC Lead",
+    "status": "approved",
+    "approved_by": "CISO",
+    "approved_at": "2026-08-01",
+    "review_date": "2026-10-01",
+    "linked_playbook": null,
+    "parameters": {}
+  },
+  {
+    "policy_id": "POL-005",
+    "name": "Security scans run only against the lab scope",
+    "version": 1,
+    "owner": "SOC Lead",
+    "status": "approved",
+    "approved_by": "CISO",
+    "approved_at": "2026-08-01",
+    "review_date": "2030-01-01",
+    "linked_playbook": null,
+    "parameters": {}
+  }
+]

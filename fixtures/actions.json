@@ -1,0 +1,193 @@
+[
+  {
+    "action_id": "ACT-001",
+    "incident_id": "INC-001",
+    "decision_id": "DEC-001",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "203.0.113.7",
+      "ttl_minutes": 60
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:40Z",
+    "expires_at": "2026-10-22T10:00:40Z",
+    "rollback_status": "scheduled",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-002",
+    "incident_id": "INC-001",
+    "decision_id": "DEC-001",
+    "actor": "agent",
+    "tool": "lock_account",
+    "args": {
+      "user": "admin@skyline.air"
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:40Z",
+    "expires_at": null,
+    "rollback_status": "not_needed",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-003",
+    "incident_id": "INC-002",
+    "decision_id": "DEC-002",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "198.51.100.23",
+      "ttl_minutes": 60
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:20Z",
+    "expires_at": "2026-10-22T10:00:20Z",
+    "rollback_status": "scheduled",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-004",
+    "incident_id": "INC-002",
+    "decision_id": "DEC-002",
+    "actor": "agent",
+    "tool": "add_waf_rule",
+    "args": {
+      "pattern": "union select"
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:20Z",
+    "expires_at": null,
+    "rollback_status": "not_needed",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-005",
+    "incident_id": "INC-003",
+    "decision_id": "DEC-003",
+    "actor": "agent",
+    "tool": "rate_limit_ip",
+    "args": {
+      "ip": "192.0.2.50",
+      "ttl_minutes": 30
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:23Z",
+    "expires_at": "2026-10-22T09:30:23Z",
+    "rollback_status": "scheduled",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-006",
+    "incident_id": "INC-006",
+    "decision_id": "DEC-006",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "203.0.113.15",
+      "ttl_minutes": 1440
+    },
+    "gate": "G3",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:34Z",
+    "expires_at": "2026-10-23T09:00:34Z",
+    "rollback_status": "scheduled",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-007",
+    "incident_id": "INC-009",
+    "decision_id": "DEC-009",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "203.0.113.45",
+      "ttl_minutes": 15
+    },
+    "gate": "G1",
+    "result": "success",
+    "dry_run": false,
+    "verification": {
+      "checked": true,
+      "confirmed": true
+    },
+    "executed_at": "2026-10-22T09:00:18Z",
+    "expires_at": "2026-10-22T09:15:18Z",
+    "rollback_status": "done",
+    "rolled_back": true
+  },
+  {
+    "action_id": "ACT-008",
+    "incident_id": "INC-007",
+    "decision_id": "DEC-007",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "172.18.0.1",
+      "ttl_minutes": 60
+    },
+    "gate": "G2",
+    "result": "rejected",
+    "reason": "allowlisted",
+    "dry_run": false,
+    "verification": null,
+    "executed_at": "2026-10-22T09:00:40Z",
+    "expires_at": null,
+    "rollback_status": "not_needed",
+    "rolled_back": false
+  },
+  {
+    "action_id": "ACT-009",
+    "incident_id": "INC-003",
+    "decision_id": "DEC-003",
+    "actor": "agent",
+    "tool": "block_ip",
+    "args": {
+      "ip": "192.0.2.50",
+      "ttl_minutes": 60
+    },
+    "gate": "G2",
+    "result": "success",
+    "dry_run": true,
+    "verification": null,
+    "executed_at": "2026-10-22T09:00:20Z",
+    "expires_at": null,
+    "rollback_status": "not_needed",
+    "rolled_back": false
+  }
+]

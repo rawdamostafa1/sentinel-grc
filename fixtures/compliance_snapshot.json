@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-22",
+  "note": "demo snapshot in the shape of Amira's compliance.build_report(); NIST 19.3 / CIS 7.8 / ISO 2.2 / OWASP 0 is what her formula gives when asset-inventory, risk-register and kri-dashboard are marked built",
+  "frameworks": {
+    "NIST_CSF_2.0": {
+      "percent": 19.3
+    },
+    "CIS_V8_1": {
+      "percent": 7.8
+    },
+    "ISO27001_2022": {
+      "percent": 2.2
+    },
+    "OWASP_TOP10_2025": {
+      "percent": 0.0
+    }
+  }
+}
