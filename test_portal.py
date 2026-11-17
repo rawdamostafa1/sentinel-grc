@@ -151,3 +151,10 @@ def test_no_internal_details_leak(fake_db):
     fake_db["incidents"].insert_one(incident(1, src_ip="203.0.113.7"))
     fake_db["actions"].insert_one(action())
     assert "203.0.113.7" not in str(client.get("/portal/summary").json())
+
+
+def test_false_positives_are_not_counted_as_real_attacks():
+    cutoff = now() - timedelta(days=30)
+    items = [incident(1, "high"), incident(2, "low", verdict="false_positive"), incident(3, "medium", verdict="true_positive")]
+    out = incident_summary(items, cutoff, 30)
+    assert out["total"] == 2 and out["by_severity"]["Low"] == 0

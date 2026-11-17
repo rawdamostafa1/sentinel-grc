@@ -198,3 +198,13 @@ def test_attack_coverage_formula():
 def test_coverage_kri_says_no_data_without_alerts(fake_db):
     kri = {k["key"]: k for k in client.get("/kris").json()["kris"]}["attack_coverage"]
     assert kri["status"] == "no_data" and kri["value"] is None and "Alaa" in kri["note"]
+
+
+def test_seeded_demo_incidents_are_recent_and_the_portal_ignores_the_false_positives(fake_db):
+    from datetime import datetime, timedelta
+    seed_incidents.run()
+    docs = list(fake_db["incidents"].find({"source": "fixture"}))
+    newest = max(datetime.strptime(d["last_seen"], "%Y-%m-%dT%H:%M:%SZ") for d in docs)
+    assert datetime.utcnow() - newest < timedelta(hours=2)            # moved to "now", not 22 October
+    summary = client.get("/portal/summary").json()["incidents"]
+    assert summary["total"] == 6                                      # 9 - 2 false positives - 1 authorised pentest

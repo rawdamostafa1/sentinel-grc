@@ -19,6 +19,7 @@ CLASS_SCORE = {"public": 1, "internal": 3, "confidential": 5}
 CRITICALITY_SHARE = 0.7   # impact = 0.7 * criticality + 0.3 * data class
 
 IGNORED_INCIDENT_STATUS = {"false_positive"}
+IGNORED_VERDICTS = {"false_positive"}   # the agent's verdict, when the incident record carries it
 CLOSED_FINDING_STATUS = {"fixed", "closed", "resolved", "remediated", "false_positive"}
 
 
@@ -51,7 +52,9 @@ def counted_incidents(incidents: list[dict], cutoff: datetime) -> list[dict]:
         if key in seen:
             continue
         seen.add(key)
-        if str(inc.get("status", "")).lower() in IGNORED_INCIDENT_STATUS or is_authorized_test(inc):
+        if (str(inc.get("status", "")).lower() in IGNORED_INCIDENT_STATUS
+                or str(inc.get("verdict", "")).lower() in IGNORED_VERDICTS
+                or is_authorized_test(inc)):
             continue
         ts = parse_ts(inc.get("first_seen"))
         if ts is not None and ts < cutoff:

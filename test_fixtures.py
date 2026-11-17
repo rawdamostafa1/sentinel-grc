@@ -67,3 +67,18 @@ def test_private_addresses_have_no_virustotal():
     for inc in load_incidents():
         if inc["src_ip"].startswith(("10.", "172.18.", "127.", "192.168.")):
             assert load_evidence(inc["incident_id"])["reputation"]["vt_available"] is False
+
+
+def test_seeding_helper_moves_dates_keeps_the_verdict_and_hides_the_answer_key():
+    from datetime import datetime, timezone
+    from fixtures.loader import incidents_for_seeding, load_incidents
+    now = datetime(2027, 1, 15, 12, 0, tzinfo=timezone.utc)
+    docs = incidents_for_seeding(now=now, age_minutes=60)
+    assert len(docs) == len(load_incidents()) and all("expected" not in d for d in docs)
+    newest = max(datetime.strptime(d["last_seen"], "%Y-%m-%dT%H:%M:%SZ") for d in docs)
+    assert newest == datetime(2027, 1, 15, 11, 0)                      # 1 hour before "now"
+    verdict = {d["incident_id"]: d["verdict"] for d in docs}
+    assert verdict["INC-004"] == verdict["INC-007"] == "false_positive" and verdict["INC-001"] == "true_positive"
+    old = {i["incident_id"]: datetime.strptime(i["first_seen"], "%Y-%m-%dT%H:%M:%SZ") for i in load_incidents()}
+    new = {d["incident_id"]: datetime.strptime(d["first_seen"], "%Y-%m-%dT%H:%M:%SZ") for d in docs}
+    assert {k: new[k] - new["INC-001"] for k in new} == {k: old[k] - old["INC-001"] for k in old}

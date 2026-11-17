@@ -2,12 +2,12 @@
 import sys
 
 from app.database import get_incidents
-from fixtures.loader import load_incidents
+from fixtures.loader import incidents_for_seeding
 
 
 def run() -> int:
-    # "expected" is the right answer for tests (what the agent should decide), not part of the incident itself
-    docs = [{**{k: v for k, v in i.items() if k != "expected"}, "source": "fixture"} for i in load_incidents()]
+    # dates are moved to now and "expected" becomes the agent's verdict, see fixtures.loader.incidents_for_seeding
+    docs = [{**d, "source": "fixture"} for d in incidents_for_seeding()]
     col = get_incidents()
     col.create_index("incident_id", unique=True)
     col.create_index("affected_assets")

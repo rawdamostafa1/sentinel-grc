@@ -1,15 +1,4 @@
-"""Demo data for the collections that OTHER owners fill in, so the KRIs (W5), the live risk (W4) and the
-Client Portal (W8) can be tested and shown without waiting for them.
 
-  alerts, decisions, actions   -> Alaa's pipeline and the agent / executor (Habiba, Mohamed Osama)
-  policies, policy_exceptions  -> Amira (Z4)
-  compliance_snapshots         -> Amira (Z2)
-
-Every document is marked source="fixture", and this script only ever deletes fixture documents.
-  python seed_demo.py            load them
-  python seed_demo.py --remove   remove only the fixture documents (also fixture incidents and findings)
-Run python seed_incidents.py and python seed_findings.py for the incidents and findings.
-"""
 import sys
 
 from app.database import get_db

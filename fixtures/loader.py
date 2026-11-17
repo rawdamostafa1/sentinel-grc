@@ -79,3 +79,30 @@ def load_policy_exceptions() -> list[dict]:
 
 def load_compliance_snapshot() -> dict:
     return _read(ROOT / "compliance_snapshot.json")
+
+
+TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
+
+def incidents_for_seeding(now=None, age_minutes: int = 60) -> list[dict]:
+    """Incidents ready to be written to the database for a demo.
+
+    - `expected` (the answer key of the tests) is removed, but its verdict is kept as `verdict`:
+      it plays the role of the agent's decision, so W4 and the Client Portal can ignore false positives.
+    - Timestamps are shifted so the newest incident is `age_minutes` old. The fixture dates are fixed
+      (22 October 2026); without this, W4 and the portal stop counting them after their 30-day window.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    now = now or datetime.now(timezone.utc)
+    incidents = load_incidents()
+    parse = lambda s: datetime.strptime(s, TS_FORMAT).replace(tzinfo=timezone.utc)  # noqa: E731
+    shift = (now - timedelta(minutes=age_minutes)) - max(parse(i["last_seen"]) for i in incidents)
+    docs = []
+    for inc in incidents:
+        doc = {k: v for k, v in inc.items() if k != "expected"}
+        for key in ("first_seen", "last_seen"):
+            doc[key] = (parse(inc[key]) + shift).strftime(TS_FORMAT)
+        doc["verdict"] = inc["expected"]["verdict"]
+        docs.append(doc)
+    return docs
